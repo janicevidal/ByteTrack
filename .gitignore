@@ -139,3 +139,8 @@ docs/api
 events.out.tfevents*
 pretrained
 YOLOX_outputs
+
+*.mp4
+*.timing
+
+src/cython-bbox

@@ -1,4 +1,5 @@
 import numpy as np
+from collections import defaultdict
 from collections import OrderedDict
 
 
@@ -10,6 +11,7 @@ class TrackState(object):
 
 
 class BaseTrack(object):
+    _count_dict = defaultdict(int)  # support single class and multi classes
     _count = 0
 
     track_id = 0
@@ -32,9 +34,23 @@ class BaseTrack(object):
         return self.frame_id
 
     @staticmethod
-    def next_id():
-        BaseTrack._count += 1
-        return BaseTrack._count
+    def next_id(cls_id):
+        BaseTrack._count_dict[cls_id] += 1
+        return BaseTrack._count_dict[cls_id]
+    
+    # @even: reset track id
+    @staticmethod
+    def init_count(num_classes):
+        """
+        Initiate _count for all object classes
+        :param num_classes:
+        """
+        for cls_id in range(num_classes):
+            BaseTrack._count_dict[cls_id] = 0
+
+    @staticmethod
+    def reset_track_count(cls_id):
+        BaseTrack._count_dict[cls_id] = 0
 
     def activate(self, *args):
         raise NotImplementedError

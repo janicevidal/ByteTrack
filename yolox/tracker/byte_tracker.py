@@ -166,6 +166,9 @@ class BYTETracker(object):
         if output_results.shape[1] == 5:
             scores = output_results[:, 4]
             bboxes = output_results[:, :4]
+        elif output_results.shape[1] == 6:
+            scores = output_results[:, 1]
+            bboxes = output_results[:, 2:]
         else:
             output_results = output_results.cpu().numpy()
             scores = output_results[:, 4] * output_results[:, 5]
